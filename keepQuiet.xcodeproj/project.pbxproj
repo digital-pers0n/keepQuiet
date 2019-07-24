@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CEE62EE122E8DE6F00E13FA7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE62EE022E8DE6F00E13FA7 /* main.m */; };
+		CEE62EEA22E8E31200E13FA7 /* KQAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,8 @@
 		CEE62EDD22E8DE6F00E13FA7 /* keepQuiet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = keepQuiet; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE62EE022E8DE6F00E13FA7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CEE62EE722E8DF2100E13FA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		CEE62EE822E8E31200E13FA7 /* KQAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KQAppDelegate.h; sourceTree = "<group>"; };
+		CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KQAppDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 		CEE62EDF22E8DE6F00E13FA7 /* keepQuiet */ = {
 			isa = PBXGroup;
 			children = (
+				CEE62EE822E8E31200E13FA7 /* KQAppDelegate.h */,
+				CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */,
 				CEE62EE722E8DF2100E13FA7 /* README.md */,
 				CEE62EE022E8DE6F00E13FA7 /* main.m */,
 			);
@@ -121,6 +126,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEE62EEA22E8E31200E13FA7 /* KQAppDelegate.m in Sources */,
 				CEE62EE122E8DE6F00E13FA7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
