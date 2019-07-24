@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		CEE62EDD22E8DE6F00E13FA7 /* keepQuiet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = keepQuiet; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE62EE022E8DE6F00E13FA7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CEE62EE722E8DF2100E13FA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +58,7 @@
 		CEE62EDF22E8DE6F00E13FA7 /* keepQuiet */ = {
 			isa = PBXGroup;
 			children = (
+				CEE62EE722E8DF2100E13FA7 /* README.md */,
 				CEE62EE022E8DE6F00E13FA7 /* main.m */,
 			);
 			path = keepQuiet;
@@ -93,11 +95,12 @@
 				TargetAttributes = {
 					CEE62EDC22E8DE6F00E13FA7 = {
 						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = CEE62ED822E8DE6F00E13FA7 /* Build configuration list for PBXProject "keepQuiet" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
