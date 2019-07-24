@@ -6,12 +6,15 @@
 //  Copyright © 2019 home. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "KQAppDelegate.h"
 
 int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        // insert code here...
-        NSLog(@"Hello, World!");
-    }
+    
+    /* Global hot keys only work in accordance with Cocoa/Carbon applications */
+    NSApplication *application = NSApplication.new;
+    KQAppDelegate *delegate = KQAppDelegate.new;
+    application.delegate = delegate;
+    [application run];
+    
     return 0;
 }
