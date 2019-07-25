@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE812F5922EA3DB3006FB8C7 /* volume_control.c in Sources */ = {isa = PBXBuildFile; fileRef = CE812F5822EA3DB3006FB8C7 /* volume_control.c */; };
 		CEE62EE122E8DE6F00E13FA7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE62EE022E8DE6F00E13FA7 /* main.m */; };
 		CEE62EEA22E8E31200E13FA7 /* KQAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */; };
 /* End PBXBuildFile section */
@@ -24,6 +25,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CE812F5722EA3DB3006FB8C7 /* volume_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = volume_control.h; path = audio/volume_control.h; sourceTree = "<group>"; };
+		CE812F5822EA3DB3006FB8C7 /* volume_control.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = volume_control.c; path = audio/volume_control.c; sourceTree = "<group>"; };
 		CEE62EDD22E8DE6F00E13FA7 /* keepQuiet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = keepQuiet; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE62EE022E8DE6F00E13FA7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CEE62EE722E8DF2100E13FA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -42,6 +45,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE812F5622EA3D7C006FB8C7 /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				CE812F5722EA3DB3006FB8C7 /* volume_control.h */,
+				CE812F5822EA3DB3006FB8C7 /* volume_control.c */,
+			);
+			name = audio;
+			sourceTree = "<group>";
+		};
 		CEE62ED422E8DE6F00E13FA7 = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +73,7 @@
 		CEE62EDF22E8DE6F00E13FA7 /* keepQuiet */ = {
 			isa = PBXGroup;
 			children = (
+				CE812F5622EA3D7C006FB8C7 /* audio */,
 				CEE62EE822E8E31200E13FA7 /* KQAppDelegate.h */,
 				CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */,
 				CEE62EE722E8DF2100E13FA7 /* README.md */,
@@ -127,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEE62EEA22E8E31200E13FA7 /* KQAppDelegate.m in Sources */,
+				CE812F5922EA3DB3006FB8C7 /* volume_control.c in Sources */,
 				CEE62EE122E8DE6F00E13FA7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
