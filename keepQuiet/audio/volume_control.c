@@ -172,3 +172,75 @@ OSStatus _set_audio_volume(Float32 volume_level) {
 OSStatus set_audio_volume(Float32 level) {
     return _set_audio_volume(level);
 }
+
+OSStatus _get_mute_status(Boolean *flag) {
+    
+    AudioDeviceID device;
+    OSStatus error = _get_default_audio_device_id(&device);
+    if (error != noErr) {
+        return error;
+    }
+    
+    AudioObjectPropertyAddress property = {
+        .mElement = kAudioObjectPropertyElementMaster,
+        .mScope = kAudioDevicePropertyScopeOutput,
+        .mSelector = kAudioDevicePropertyMute
+    };
+    
+    Boolean has_mute_property = AudioObjectHasProperty(device, &property);
+    if (has_mute_property) {
+        UInt32 result = 0;
+        UInt32 size = 0;
+        error = AudioObjectGetPropertyData(device, &property, 0, NULL, &size, &result);
+        if (error != noErr) {
+            err_fprintf("AudioObjectGetPropertyData() : %u\n", error);
+            return error;
+        }
+        *flag = result;
+    }
+    return error;
+}
+
+OSStatus get_mute_status(Boolean *flag) {
+    return _get_mute_status(flag);
+}
+
+OSStatus _set_mute_status(Boolean flag) {
+    AudioDeviceID device;
+    OSStatus error = _get_default_audio_device_id(&device);
+    if (error != noErr) {
+        return error;
+    }
+    
+    AudioObjectPropertyAddress property = {
+        .mElement = kAudioObjectPropertyElementMaster,
+        .mScope = kAudioDevicePropertyScopeOutput,
+        .mSelector = kAudioDevicePropertyMute
+    };
+    
+    Boolean has_mute_property = AudioObjectHasProperty(device, &property);
+    Boolean can_set_mute_property = false;
+    
+    if (has_mute_property) {
+        OSStatus error = AudioObjectIsPropertySettable(device, &property, &can_set_mute_property);
+        if (error != noErr) {
+            err_fprintf("AudioObjectIsPropertySettable() : %u\n", error);
+            return error;
+        }
+        if (!can_set_mute_property) {
+            err_fprintf("Cannot set mute property\n");
+            return -1;
+        }
+        UInt32 value = flag;
+        error = AudioObjectSetPropertyData(device, &property, 0, NULL, sizeof(value), &value);
+        if (error != noErr) {
+            err_fprintf("AudioObjectSetPropertyData() : %u\n", error);
+            return error;
+        }
+    }
+    return error;
+}
+
+OSStatus set_mute_status(Boolean flag) {
+    return _set_mute_status(flag);
+}
