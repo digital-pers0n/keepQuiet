@@ -187,7 +187,7 @@ OSStatus _get_mute_status(Boolean *flag) {
     Boolean has_mute_property = AudioObjectHasProperty(device, &property);
     if (has_mute_property) {
         UInt32 result = 0;
-        UInt32 size = 0;
+        UInt32 size = sizeof(result);
         error = AudioObjectGetPropertyData(device, &property, 0, NULL, &size, &result);
         if (error != noErr) {
             err_fprintf("AudioObjectGetPropertyData() : %u\n", error);
