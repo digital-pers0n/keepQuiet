@@ -20,15 +20,14 @@ static inline OSStatus _get_default_audio_device_id(AudioDeviceID *device) {
         .mElement = kAudioObjectPropertyElementMaster
     };
     
-    OSStatus error = AudioObjectHasProperty(kAudioObjectSystemObject, &property);
-    if (error != noErr) {
-        err_fprintf("AudioObjectHasProperty() : %u\n", error);
-        return error;
+    if (!AudioObjectHasProperty(kAudioObjectSystemObject, &property)) {
+        err_fprintf("AudioObjectHasProperty()\n");
+        return -1;
     }
     
     UInt32 size = sizeof(AudioDeviceID);
     AudioDeviceID result;
-    error = AudioObjectGetPropertyData(
+    OSStatus error = AudioObjectGetPropertyData(
                                        kAudioObjectSystemObject,
                                        &property,
                                        0,
@@ -73,10 +72,9 @@ static inline OSStatus _get_audio_volume(Float32 *volume_level) {
         .mElement = kAudioObjectPropertyElementMaster
     };
     
-    error = AudioObjectHasProperty(device, &property);
-    if (error != noErr) {
-        err_fprintf("AudioObjectHasProperty() : %u\n", error);
-        return error;
+    if (!AudioObjectHasProperty(device, &property)) {
+        err_fprintf("AudioObjectHasProperty()\n");
+        return -1;
     }
     
     UInt32 size = sizeof(Float32);
@@ -124,10 +122,9 @@ OSStatus _set_audio_volume(Float32 volume_level) {
         property.mSelector = kAudioHardwareServiceDeviceProperty_VirtualMasterVolume;
     }
     
-    error = AudioObjectHasProperty(device, &property);
-    if (error != noErr) {
-        err_fprintf("AudioObjectHasProperty() : %u\n", error);
-        return error;
+    if (!AudioObjectHasProperty(device, &property)) {
+        err_fprintf("AudioObjectHasProperty()");
+        return -1;
     }
     
     Boolean can_set_volume_property = false;
