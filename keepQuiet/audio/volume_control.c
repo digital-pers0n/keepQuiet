@@ -110,13 +110,18 @@ OSStatus _set_audio_volume(Float32 volume_level) {
         .mScope = kAudioDevicePropertyScopeOutput
     };
     
-    Boolean has_mute_property = false, can_set_mute_property = false;
+    Boolean has_mute_property = true, can_set_mute_property = true;
     Boolean should_mute = (volume_level < k_minimum_volume_level);
     if (should_mute) {
         property.mSelector = kAudioDevicePropertyMute;
         has_mute_property = AudioObjectHasProperty(device, &property);
         if (has_mute_property) {
-            AudioObjectIsPropertySettable(device, &property, &can_set_mute_property);
+            error = AudioObjectIsPropertySettable(device, &property, &can_set_mute_property);
+            if (error != noErr || !can_set_mute_property) {
+                can_set_mute_property = false;
+            }
+        } else {
+            can_set_mute_property = false;
         }
     } else {
         property.mSelector = kAudioHardwareServiceDeviceProperty_VirtualMasterVolume;
