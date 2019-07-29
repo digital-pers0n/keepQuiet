@@ -100,14 +100,14 @@ static inline OSStatus _adjust_audio_volume(Float32 value) {
     OSStatus error = get_audio_volume(&current_volume);
     
     if (error) {
-        syslog(LOG_WARNING, "get_audio_volume() -> %u", error);
+        syslog(LOG_WARNING, "get_audio_volume() -> %d", error);
         return error;
     }
     
     error = set_audio_volume(current_volume + value);
     
     if (error) {
-        syslog(LOG_WARNING, "set_audio_volume() -> %u", error);
+        syslog(LOG_WARNING, "set_audio_volume() -> %d", error);
         return error;
     }
     
@@ -120,14 +120,14 @@ static inline OSStatus _toggle_mute() {
     OSStatus error = get_mute_status(&flag);
     
     if (error) {
-        syslog(LOG_WARNING, "get_mute_status() -> %u", error);
+        syslog(LOG_WARNING, "get_mute_status() -> %d", error);
         return error;
     }
     
     error = set_mute_status((flag) ? false : true);
     
     if (error) {
-        syslog(LOG_WARNING, "set_mute_status() -> %u", error);
+        syslog(LOG_WARNING, "set_mute_status() -> %d", error);
         return error;
     }
     
@@ -140,7 +140,7 @@ static OSStatus hotkey_callback(EventHandlerCallRef nextHandler, EventRef theEve
     OSStatus error = GetEventParameter(theEvent, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(hotKeyID), NULL, &hotKeyID);
     
     if (error != noErr) {
-        syslog(LOG_WARNING, "GetEventParameter() -> %u", error);
+        syslog(LOG_WARNING, "GetEventParameter() -> %d", error);
         return error;
     }
     

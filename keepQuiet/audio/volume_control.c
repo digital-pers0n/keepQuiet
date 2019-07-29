@@ -35,7 +35,7 @@ static inline OSStatus _get_default_audio_device_id(AudioDeviceID *device) {
                                        &size,
                                        &result);
     if (error != noErr) {
-        err_fprintf("AudioObjectGetPropertyData() : %u\n", error);
+        err_fprintf("AudioObjectGetPropertyData() : %d\n", error);
         return error;
     }
     
@@ -81,7 +81,7 @@ static inline OSStatus _get_audio_volume(Float32 *volume_level) {
     Float32 result;
     error = AudioObjectGetPropertyData(device, &property, 0, NULL, &size, &result);
     if (error != noErr) {
-        err_fprintf("AudioObjectGetPropertyData() : %u\n", error);
+        err_fprintf("AudioObjectGetPropertyData() : %d\n", error);
         return error;
     }
     
@@ -135,7 +135,7 @@ OSStatus _set_audio_volume(Float32 volume_level) {
     Boolean can_set_volume_property = false;
     error = AudioObjectIsPropertySettable(device, &property, &can_set_volume_property);
     if (error != noErr) {
-        err_fprintf("AudioObjectIsPropertySettable() : %u\n", error);
+        err_fprintf("AudioObjectIsPropertySettable() : %d\n", error);
         return error;
     }
     if (!can_set_volume_property) {
@@ -147,13 +147,13 @@ OSStatus _set_audio_volume(Float32 volume_level) {
         UInt32 mute = 1;
         error = AudioObjectSetPropertyData(device, &property, 0, NULL, sizeof(mute), &mute);
         if (error != noErr) {
-            err_fprintf("AudioObjectSetPropertyData() : %u\n", error);
+            err_fprintf("AudioObjectSetPropertyData() : %d\n", error);
             return error;
         }
     } else {
         error = AudioObjectSetPropertyData(device, &property, 0, NULL, sizeof(volume_level), &volume_level);
         if (error != noErr) {
-            err_fprintf("AudioObjectSetPropertyData() : %u\n", error);
+            err_fprintf("AudioObjectSetPropertyData() : %d\n", error);
             return error;
         }
         
@@ -162,7 +162,7 @@ OSStatus _set_audio_volume(Float32 volume_level) {
             UInt32 mute = 0;
             error = AudioObjectSetPropertyData(device, &property, 0, NULL, sizeof(mute), &mute);
             if (error != noErr) {
-                err_fprintf("AudioObjectSetPropertyData() : %u\n", error);
+                err_fprintf("AudioObjectSetPropertyData() : %d\n", error);
                 return error;
             }
         }
@@ -195,7 +195,7 @@ OSStatus _get_mute_status(Boolean *flag) {
         UInt32 size = sizeof(result);
         error = AudioObjectGetPropertyData(device, &property, 0, NULL, &size, &result);
         if (error != noErr) {
-            err_fprintf("AudioObjectGetPropertyData() : %u\n", error);
+            err_fprintf("AudioObjectGetPropertyData() : %d\n", error);
             return error;
         }
         *flag = result;
@@ -226,7 +226,7 @@ OSStatus _set_mute_status(Boolean flag) {
     if (has_mute_property) {
         OSStatus error = AudioObjectIsPropertySettable(device, &property, &can_set_mute_property);
         if (error != noErr) {
-            err_fprintf("AudioObjectIsPropertySettable() : %u\n", error);
+            err_fprintf("AudioObjectIsPropertySettable() : %d\n", error);
             return error;
         }
         if (!can_set_mute_property) {
@@ -236,7 +236,7 @@ OSStatus _set_mute_status(Boolean flag) {
         UInt32 value = flag;
         error = AudioObjectSetPropertyData(device, &property, 0, NULL, sizeof(value), &value);
         if (error != noErr) {
-            err_fprintf("AudioObjectSetPropertyData() : %u\n", error);
+            err_fprintf("AudioObjectSetPropertyData() : %d\n", error);
             return error;
         }
     }
