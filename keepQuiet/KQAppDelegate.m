@@ -50,37 +50,43 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
                                          (__bridge void *)self, NULL);
     
     if (error) {
-        syslog(LOG_CRIT, "%s : InstallEventHandler() - %d", __PRETTY_FUNCTION__, error);
+        syslog(LOG_CRIT, "%s : InstallEventHandler() -> %d", __PRETTY_FUNCTION__, error);
         exit(EXIT_FAILURE);
     }
     
-    {   // Initialize hotkeys
+    if ([self initializeHotKeys] != noErr) {
+        exit(EXIT_FAILURE);
+    }
+}
+
+- (OSStatus)initializeHotKeys {
     
-        hotkey_init_data hotkey_data[k_number_of_hotkeys] = {
-            { .key_id = KQHotKeyVolumeUpPrecise, .key_code = kVK_F15, .modifier_mask = 0 },
-            { .key_id = KQHotKeyVolumeDownPrecise, .key_code = kVK_F14, .modifier_mask = 0 },
-            { .key_id = KQHotKeyVolumeUpNormal, .key_code = kVK_F15, .modifier_mask = shiftKey | cmdKey },
-            { .key_id = KQHotKeyVolumeDownNormal, .key_code = kVK_F14, .modifier_mask = shiftKey | cmdKey },
-            { .key_id = KQHotKeyVolumeMute, .key_code = kVK_F13, .modifier_mask = 0 },
-        };
-        
-        EventHotKeyID evenHotKeyID = { .signature = k_hotkey_signature };
-        for (int i = 0; i < k_number_of_hotkeys; i++) {
-            hotkey_init_data *ptr = hotkey_data + i;
-            evenHotKeyID.id = ptr->key_id;
-            error = RegisterEventHotKey(
-                                        ptr->key_code,
-                                        ptr->modifier_mask,
-                                        evenHotKeyID,
-                                        GetEventDispatcherTarget(),
-                                        0,
-                                        _eventHotKeyRefs + i);
-            if (error) {
-                syslog(LOG_CRIT, "%s : RegisterEventHotKey() - %d", __PRETTY_FUNCTION__, error);
-                exit(EXIT_FAILURE);
-            }
+    hotkey_init_data hotkey_data[k_number_of_hotkeys] = {
+        { .key_id = KQHotKeyVolumeUpPrecise, .key_code = kVK_F15, .modifier_mask = 0 },
+        { .key_id = KQHotKeyVolumeDownPrecise, .key_code = kVK_F14, .modifier_mask = 0 },
+        { .key_id = KQHotKeyVolumeUpNormal, .key_code = kVK_F15, .modifier_mask = shiftKey | cmdKey },
+        { .key_id = KQHotKeyVolumeDownNormal, .key_code = kVK_F14, .modifier_mask = shiftKey | cmdKey },
+        { .key_id = KQHotKeyVolumeMute, .key_code = kVK_F13, .modifier_mask = 0 },
+    };
+    
+    EventHotKeyID evenHotKeyID = { .signature = k_hotkey_signature };
+    for (int i = 0; i < k_number_of_hotkeys; i++) {
+        hotkey_init_data *ptr = hotkey_data + i;
+        evenHotKeyID.id = ptr->key_id;
+        OSStatus error = RegisterEventHotKey(
+                                    ptr->key_code,
+                                    ptr->modifier_mask,
+                                    evenHotKeyID,
+                                    GetEventDispatcherTarget(),
+                                    0,
+                                    _eventHotKeyRefs + i);
+        if (error) {
+            syslog(LOG_CRIT, "%s : RegisterEventHotKey() -> %d", __PRETTY_FUNCTION__, error);
+            return error;
         }
     }
+    
+    return noErr;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
