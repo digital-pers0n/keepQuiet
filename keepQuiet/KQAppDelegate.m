@@ -7,6 +7,7 @@
 //
 
 #import "KQAppDelegate.h"
+#import "audio/volume_control.h"
 #import <Carbon/Carbon.h>
 #import <syslog.h>
 
@@ -88,7 +89,88 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
 
 #pragma mark - Hotkey callback
 
+static inline OSStatus _adjust_audio_volume(Float32 value) {
+    Float32 current_volume;
+    OSStatus error = get_audio_volume(&current_volume);
+    
+    if (error) {
+        syslog(LOG_WARNING, "get_audio_volume() -> %u", error);
+        return error;
+    }
+    
+    error = set_audio_volume(current_volume + value);
+    
+    if (error) {
+        syslog(LOG_WARNING, "set_audio_volume() -> %u", error);
+        return error;
+    }
+    
+    NSBeep();
+    return noErr;
+}
+
+static inline OSStatus _toggle_mute() {
+    Boolean flag;
+    OSStatus error = get_mute_status(&flag);
+    
+    if (error) {
+        syslog(LOG_WARNING, "get_mute_status() -> %u", error);
+        return error;
+    }
+    
+    error = set_mute_status((flag) ? false : true);
+    
+    if (error) {
+        syslog(LOG_WARNING, "set_mute_status() -> %u", error);
+        return error;
+    }
+    
+    return noErr;
+}
+
 static OSStatus hotkey_callback(EventHandlerCallRef nextHandler, EventRef theEvent, void *userData) {
+    
+    EventHotKeyID hotKeyID;
+    OSStatus error = GetEventParameter(theEvent, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(hotKeyID), NULL, &hotKeyID);
+    
+    if (error != noErr) {
+        syslog(LOG_WARNING, "GetEventParameter() -> %u", error);
+        return error;
+    }
+    
+    if (hotKeyID.signature == k_hotkey_signature) {
+
+        switch (hotKeyID.id) {
+            case KQHotKeyVolumeUpPrecise:
+                return _adjust_audio_volume(0.01);
+                
+                break;
+                
+            case KQHotKeyVolumeDownPrecise:
+                return _adjust_audio_volume(-0.01);
+                
+                break;
+                
+            case KQHotKeyVolumeUpNormal:
+                return _adjust_audio_volume(0.1);
+                
+                break;
+                
+            case KQHotKeyVolumeDownNormal:
+                return _adjust_audio_volume(-0.1);
+                
+                break;
+                
+            case KQHotKeyVolumeMute:
+                return _toggle_mute();
+
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
     return noErr;
 }
 
