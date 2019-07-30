@@ -10,6 +10,8 @@
 #import "audio/volume_control.h"
 #import <Carbon/Carbon.h>
 #import <syslog.h>
+#import <sys/event.h>
+#import <sys/signal.h>
 
 static const OSType k_hotkey_signature = 'kqhk';
 
@@ -57,6 +59,8 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
     if ([self initializeHotKeys] != noErr) {
         exit(EXIT_FAILURE);
     }
+    
+    [self performSelectorInBackground:@selector(startSignalMonitor) withObject:nil];
 }
 
 - (OSStatus)initializeHotKeys {
@@ -87,6 +91,65 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
     }
     
     return noErr;
+}
+
+- (int)registerSignals:(int)kq {
+    int signals[] = { SIGHUP, SIGINT, SIGQUIT, SIGTERM };
+    size_t count = sizeof(signals) / sizeof(*signals);
+    int *start = signals;
+    int *end = signals + count;
+    while (start < end) {
+        struct kevent event;
+        EV_SET(&event, *start, EVFILT_SIGNAL, EV_ADD | EV_ENABLE, 0, 0, NULL);
+        signal(*start++, SIG_IGN);
+        
+        if (kevent(kq, &event, 1, NULL, 0, NULL) == -1) {
+            syslog(LOG_ERR, "kevent() -> %m");
+            close(kq);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+- (void)startSignalMonitor {
+     
+    int kq = kqueue();
+    if (kq == -1) {
+        syslog(LOG_ERR, "kqueue() -> %m");
+        return;
+    }
+    
+    if (![self registerSignals:kq]) {
+        return;
+    }
+    
+    while (true) {
+        struct kevent event;
+        int result = kevent(kq, NULL, 0, &event, 1, NULL);
+        if (result > 0) {
+            switch (event.ident) {
+                case SIGHUP:
+                case SIGINT:
+                case SIGQUIT:
+                case SIGTERM:
+                    
+                    syslog(LOG_NOTICE, "Shutting down...");
+                    close(kq);
+                    [NSApp terminate:nil];
+                    
+                    return;
+                    
+                default:
+                    break;
+            }
+        } else if (result == -1) {
+            syslog(LOG_ERR, "kevent() -> %m");
+            close(kq);
+            return;
+        }
+    }
+    return;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
