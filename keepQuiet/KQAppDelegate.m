@@ -90,7 +90,11 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
-
+    EventHotKeyRef *end = _eventHotKeyRefs + k_number_of_hotkeys;
+    EventHotKeyRef *item = _eventHotKeyRefs;
+    while (item < end) {
+        UnregisterEventHotKey(*item++);
+    }
 }
 
 #pragma mark - Hotkey callback
