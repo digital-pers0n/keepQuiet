@@ -120,7 +120,8 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
         return;
     }
     
-    if (![self registerSignals:kq]) {
+    if ([self registerSignals:kq] != 0) {
+        close(kq);
         return;
     }
     
