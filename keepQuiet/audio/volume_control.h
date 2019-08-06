@@ -14,7 +14,7 @@
 #import <CoreAudio/CoreAudio.h>
 #import <AudioToolbox/AudioServices.h>
 
-#define k_minimum_volume_level 0.005
+#define k_minimum_volume_level 0.001
 
 /**
  
