@@ -12,7 +12,41 @@
 
 #define err_fprintf(fmt, ...) fprintf(stderr, ("%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+static AudioDeviceID _default_device = kAudioObjectUnknown;
+
+static OSStatus _audio_object_property_listener(AudioObjectID                       inObjectID,
+                                                UInt32                              inNumberAddresses,
+                                                const AudioObjectPropertyAddress*   inAddresses,
+                                                void* __nullable                    inClientData) {
+    UInt32 size = sizeof(AudioDeviceID);
+    AudioDeviceID result;
+    OSStatus error = AudioObjectGetPropertyData(
+                                                kAudioObjectSystemObject,
+                                                inAddresses,
+                                                0,
+                                                NULL,
+                                                &size,
+                                                &result);
+    if (error != noErr) {
+        err_fprintf("AudioObjectGetPropertyData() : %d\n", error);
+        return error;
+    }
+    
+#ifdef DEBUG
+    fprintf(stdout, "old audio device id: %d\n", _default_device);
+    fprintf(stdout, "new audio device id: %d\n", result);
+#endif
+    
+    _default_device = result;
+    return 0;
+}
+
 static inline OSStatus _get_default_audio_device_id(AudioDeviceID *device) {
+    
+    if (_default_device != kAudioObjectUnknown) {
+        *device = _default_device;
+        return noErr;
+    }
     
     AudioObjectPropertyAddress property = {
         .mSelector = kAudioHardwarePropertyDefaultOutputDevice,
@@ -39,7 +73,14 @@ static inline OSStatus _get_default_audio_device_id(AudioDeviceID *device) {
         return error;
     }
     
+
+    error = AudioObjectAddPropertyListener(kAudioObjectSystemObject, &property, _audio_object_property_listener, NULL);
+    if (error != noErr) {
+        err_fprintf("AudioObjectAddPropertyListener() : %d\n", error);
+    }
+    
     *device = result;
+    _default_device = result;
     
     return noErr;
 }
