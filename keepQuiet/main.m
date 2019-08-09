@@ -7,18 +7,14 @@
 //
 
 #import "KQAppDelegate.h"
-
-#define PROGRAM_NAME "keepQuiet"
-#define PROGRAM_VERSION "0.1"
+#import "command_line.h"
 
 int main(int argc, const char * argv[]) {
+    
     if (argc > 1) {
-        const char *arg  = argv[1];
-        if (strncmp(arg, "-v", 2) == 0) {
-            printf("%s %s\n", PROGRAM_NAME, PROGRAM_VERSION);
-            return 0;
-        };
+        return read_options(argc, (char **)argv);
     }
+
     /* Global hot keys only work in accordance with Cocoa/Carbon applications */
     NSApplication *application = NSApplication.new;
     KQAppDelegate *delegate = KQAppDelegate.new;
