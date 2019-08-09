@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CE812F5922EA3DB3006FB8C7 /* volume_control.c in Sources */ = {isa = PBXBuildFile; fileRef = CE812F5822EA3DB3006FB8C7 /* volume_control.c */; };
+		CEA6C0F022FB4E8000D38F2A /* command_line.c in Sources */ = {isa = PBXBuildFile; fileRef = CEA6C0EE22FB4E8000D38F2A /* command_line.c */; };
 		CEE62EE122E8DE6F00E13FA7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE62EE022E8DE6F00E13FA7 /* main.m */; };
 		CEE62EEA22E8E31200E13FA7 /* KQAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */; };
 /* End PBXBuildFile section */
@@ -27,6 +28,8 @@
 /* Begin PBXFileReference section */
 		CE812F5722EA3DB3006FB8C7 /* volume_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = volume_control.h; path = audio/volume_control.h; sourceTree = "<group>"; };
 		CE812F5822EA3DB3006FB8C7 /* volume_control.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = volume_control.c; path = audio/volume_control.c; sourceTree = "<group>"; };
+		CEA6C0EE22FB4E8000D38F2A /* command_line.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = command_line.c; sourceTree = "<group>"; };
+		CEA6C0EF22FB4E8000D38F2A /* command_line.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = command_line.h; sourceTree = "<group>"; };
 		CEE62EDD22E8DE6F00E13FA7 /* keepQuiet */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = keepQuiet; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE62EE022E8DE6F00E13FA7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CEE62EE722E8DF2100E13FA7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -54,6 +57,15 @@
 			name = audio;
 			sourceTree = "<group>";
 		};
+		CEA6C0F122FB4EA900D38F2A /* command_line */ = {
+			isa = PBXGroup;
+			children = (
+				CEA6C0EF22FB4E8000D38F2A /* command_line.h */,
+				CEA6C0EE22FB4E8000D38F2A /* command_line.c */,
+			);
+			path = command_line;
+			sourceTree = "<group>";
+		};
 		CEE62ED422E8DE6F00E13FA7 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +88,7 @@
 				CE812F5622EA3D7C006FB8C7 /* audio */,
 				CEE62EE822E8E31200E13FA7 /* KQAppDelegate.h */,
 				CEE62EE922E8E31200E13FA7 /* KQAppDelegate.m */,
+				CEA6C0F122FB4EA900D38F2A /* command_line */,
 				CEE62EE722E8DF2100E13FA7 /* README.md */,
 				CEE62EE022E8DE6F00E13FA7 /* main.m */,
 			);
@@ -140,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEE62EEA22E8E31200E13FA7 /* KQAppDelegate.m in Sources */,
+				CEA6C0F022FB4E8000D38F2A /* command_line.c in Sources */,
 				CE812F5922EA3DB3006FB8C7 /* volume_control.c in Sources */,
 				CEE62EE122E8DE6F00E13FA7 /* main.m in Sources */,
 			);
