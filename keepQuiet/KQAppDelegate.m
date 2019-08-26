@@ -33,6 +33,7 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
 
 @interface KQAppDelegate () {
     EventHotKeyRef _eventHotKeyRefs[k_number_of_hotkeys];
+    NSThread *_thread;
 }
 
 @end
@@ -59,8 +60,9 @@ static const size_t k_number_of_hotkeys = KQHotKeyVolumeMute + 1;
     if ([self initializeHotKeys] != noErr) {
         exit(EXIT_FAILURE);
     }
-    
-    [self performSelectorInBackground:@selector(startSignalMonitor) withObject:nil];
+    _thread = [[NSThread alloc] initWithTarget:self selector:@selector(startSignalMonitor) object:nil];
+    _thread.qualityOfService = NSQualityOfServiceBackground;
+    [_thread start];
 }
 
 - (OSStatus)initializeHotKeys {
