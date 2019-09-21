@@ -16,7 +16,7 @@ int main(int argc, const char * argv[]) {
     }
 
     /* Global hot keys only work in accordance with Cocoa/Carbon applications */
-    NSApplication *application = NSApplication.new;
+    NSApplication *application = [NSApplication sharedApplication];
     KQAppDelegate *delegate = KQAppDelegate.new;
     application.delegate = delegate;
     [application run];
