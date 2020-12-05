@@ -103,9 +103,7 @@ static OSStatus _toggle_mute() {
         return error;
     }
     
-    error = set_mute_status((flag) ? false : true);
-    
-    return error;
+    return set_mute_status((flag) ? false : true);
 }
 
 static OSStatus _adjust_audio_volume(Float32 amount) {
