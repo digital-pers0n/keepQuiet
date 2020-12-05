@@ -136,7 +136,7 @@ OSStatus get_audio_volume(Float32 *level) {
     return _get_audio_volume(level);
 }
 
-OSStatus _set_audio_volume(Float32 volume_level) {
+static OSStatus _set_audio_volume(Float32 volume_level) {
     
     AudioDeviceID device;
     OSStatus error = _get_default_audio_device_id(&device);
@@ -248,7 +248,7 @@ OSStatus get_mute_status(Boolean *flag) {
     return _get_mute_status(flag);
 }
 
-OSStatus _set_mute_status(Boolean flag) {
+static OSStatus _set_mute_status(Boolean flag) {
     AudioDeviceID device;
     OSStatus error = _get_default_audio_device_id(&device);
     if (error != noErr) {
